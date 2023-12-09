@@ -1,22 +1,16 @@
 import sys
 from random import randint
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
-from PyQt5.QtGui import QPainter, QPen, QBrush, QColor
-from PyQt5.QtCore import Qt
-from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtGui import QPainter, QPen, QColor
 
 
-class UI(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
+class UI:
+    def __init__(self, main):
+        main.setWindowTitle('ok')
+        main.setGeometry(300, 300, 601, 600)
 
-    def initUI(self):
-        self.setWindowTitle('ok')
-        self.setGeometry(300, 300, 601, 600)
-
-        self.button = QPushButton("Нарисовать круг", self)
+        self.button = QPushButton("Нарисовать круг", main)
         self.button.resize(161, 60)
         self.button.move(220, 480)
 
@@ -25,8 +19,8 @@ class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.interface = UI()
-        self.interface.show()
+        self.interface = UI(self)
+        self.show()
         self.interface.button.clicked.connect(self.paint)
         self.do_paint = False
 
@@ -42,10 +36,12 @@ class MyWidget(QMainWindow):
             qp.end()
 
     def drawEllipse(self, qp):
-        diameter = randint(10, 250)
+        diameter = randint(10, 300)
 
-        qp.setPen(QPen(Qt.yellow, 5, Qt.SolidLine))
+        color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
+        qp.setPen(QPen(color, 5))
         qp.drawEllipse((self.width() - diameter) // 2, (self.height() - 160 - diameter) // 2, diameter, diameter)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
