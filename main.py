@@ -1,16 +1,33 @@
 import sys
 from random import randint
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
 from PyQt5.QtGui import QPainter, QPen, QBrush, QColor
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
+
+class UI(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('ok')
+        self.setGeometry(300, 300, 601, 600)
+
+        self.button = QPushButton("Нарисовать круг", self)
+        self.button.resize(161, 60)
+        self.button.move(220, 480)
+
+
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
-        self.pushButton.clicked.connect(self.paint)
+
+        self.interface = UI()
+        self.interface.show()
+        self.interface.button.clicked.connect(self.paint)
         self.do_paint = False
 
     def paint(self):
@@ -21,10 +38,10 @@ class MyWidget(QMainWindow):
         if self.do_paint:
             qp = QPainter()
             qp.begin(self)
-            self.drawRectangles(qp)
+            self.drawEllipse(qp)
             qp.end()
 
-    def drawRectangles(self, qp):
+    def drawEllipse(self, qp):
         diameter = randint(10, 250)
 
         qp.setPen(QPen(Qt.yellow, 5, Qt.SolidLine))
